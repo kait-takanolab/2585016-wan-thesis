@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>日語発音支援システム</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>日語発音支援システム</h1>
+
+    <form action="/" method="post" enctype="multipart/form-data">
+        <label for="target">選擇要朗讀的句子：</label>
+        <select name="target" id="target" required>
+            {% for t in targets %}
+                <option value="{{ t }}">{{ t }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <label>上傳音頻 (wav):</label>
+        <input type="file" name="audio" accept="audio/wav" required>
+        <button type="submit">提交</button>
+    </form>
+
+    {% if score is not none %}
+        <h2>目標句：</h2>
+        <p>{{ target|default('') }}</p>
+
+        <h2>識別結果：</h2>
+        <p>{{ recognized|default('') }}</p>
+
+        <h2>得分：</h2>
+        <p>{{ score|default(0) }} 點</p>
+
+        <h2>反饋：</h2>
+        <ul>
+            {% for item in feedback|default([]) %}
+                <li>{{ item }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
